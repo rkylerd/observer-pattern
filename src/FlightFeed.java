@@ -41,7 +41,7 @@ public class FlightFeed implements ISubject {
 			while (true) {
 				
 				try {
-					final int UPDATE_DELAY_MILLIS = 20 * 1000; // 20 seconds
+					final int UPDATE_DELAY_MILLIS = 10 * 1000; // 10 seconds
 					Thread.sleep(UPDATE_DELAY_MILLIS);
 				} catch (InterruptedException ex) {
 					return;
