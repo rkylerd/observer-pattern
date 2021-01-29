@@ -5,11 +5,11 @@ public class FlightMonitor {
 	
 		FlightFeed feed = new FlightFeed();
 
-		IObserver flightStatusObserver = new FlightStatusObserver();
 		IObserver flightSafetyObserver = new FlightSafetyObserver();
+		IObserver flightStatusObserver = new FlightStatusObserver();
 
-		feed.attachObserver(flightStatusObserver);
 		feed.attachObserver(flightSafetyObserver);
+		feed.attachObserver(flightStatusObserver);
 
 		feed.start();
 	}

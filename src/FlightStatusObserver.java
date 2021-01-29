@@ -7,21 +7,18 @@ public class FlightStatusObserver implements IObserver {
     }
 
     @Override
-    public void update(Object flight) {
+    public void update(Object o) {
 
-        System.out.println("\n");
-
-        if (flight == null) {
+        if (o == null) {
             System.out.println("Flight over.");
             return;
         }
 
+        this.setFlight( (Flight)o );
+
         if (_flight != null) {
-            System.out.print("New flight info --> ");
+            System.out.println( String.format( "Flight status --> %s", _flight.toString() ) );
         }
 
-        this.setFlight((Flight)flight);
-
-        System.out.println(String.format("%s", _flight.toString()));
     }
 }

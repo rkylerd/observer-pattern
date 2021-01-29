@@ -9,28 +9,24 @@ public class FlightSafetyObserver implements IObserver {
     }
 
     @Override
-    public void update(Object f) {
-
-        if (f == null) {
+    public void update(Object o) {
+        if (o == null) {
             System.out.println("Because the flight was lost, we cannot compute the changes in longitude, latitude, velocity, and altitude undergone in the last 60 seconds.");
             return;
         }
 
-        Flight flight = (Flight) f;
+        Flight f = (Flight)o;
 
         if (_flight != null) {
-            System.out.println("Flight " + calcDelta(flight));
+            System.out.println("\nFlight Safety info -->  " + calcDelta(f) );
         } else {
-            System.out.println(String.format("Wait at least 60 seconds for flight %s's longitude, latitude, velocity, and altitude values to change", flight.icao24));
+            System.out.println(String.format("\nWait at least 10 seconds for flight %s's longitude, latitude, velocity, and altitude values to change", f.icao24));
         }
-
-        this.setFlight((Flight) f);
-
+        this.setFlight(f);
     }
 
-    private String calcDelta(Flight newInfo) {
-
-        return String.format("Deltas -->  longitudinal delta: %f, latitudinal delta: %f, velocity delta: %f, altitude delta: %f",
-                newInfo.longitude - _flight.longitude, newInfo.latitude - _flight.latitude, newInfo.velocity - _flight.velocity, newInfo.geo_altitude - _flight.geo_altitude);
+    private String calcDelta(Flight f) {
+        return String.format("longitudinal delta: %f, latitudinal delta: %f, velocity delta: %f, altitude delta: %f",
+                f.longitude - _flight.longitude, f.latitude - _flight.latitude, f.velocity - _flight.velocity, f.geo_altitude - _flight.geo_altitude);
     }
 }
