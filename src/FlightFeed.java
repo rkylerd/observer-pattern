@@ -3,32 +3,30 @@ import java.net.*;
 import java.util.*;
 import com.google.gson.*;
 
-public class FlightFeed extends Subject {
+public class FlightFeed implements ISubject {
 	
 	private static final String OPEN_SKY_BASE_URL = "https://opensky-network.org/api/states/all";
 
-	List<Observer> observers = new ArrayList<>();
+	List<IObserver> observers = new ArrayList<>();
 
 	// Flight property
-	private Flight _flight;	
-	public Flight getFlight() {
-		return _flight;
-	}
-	private void setFlight(Flight value) {
+	private Flight _flight;
 
-		this._flight = value;
-		notifyObservers(value);
+	private void setFlight(Flight flight) {
+		this._flight = flight;
+		notifyObservers(flight);
 	}
 
     @Override
-    public void notifyObservers(Object o) {
-	    for (Observer obs : observers) {
-	        obs.update((Flight)o);
+    public void notifyObservers(Flight f) {
+	    for (IObserver obs : observers) {
+	        obs.update(f);
         }
     }
 
-    public void attachObserver(Observer o) {
-        observers.add((Observer)o);
+	@Override
+	public void attachObserver(IObserver o) {
+        observers.add(o);
     }
 
 	public void start() {
@@ -39,15 +37,13 @@ public class FlightFeed extends Subject {
 			
 			// Monitor the first flight returned by Open Sky
 			setFlight(allFlights.states.get(0));
-//			System.out.println(_flight.toString());
 		
 			while (true) {
 				
 				try {
-					final int UPDATE_DELAY_MILLIS = 60 * 1000; // one minute
+					final int UPDATE_DELAY_MILLIS = 20 * 1000; // 20 seconds
 					Thread.sleep(UPDATE_DELAY_MILLIS);
-				}
-				catch (InterruptedException ex) {
+				} catch (InterruptedException ex) {
 					return;
 				}
 				
@@ -59,15 +55,12 @@ public class FlightFeed extends Subject {
 					if (!_flight.equals(newFlight)) {
 						
 						// Flight info changed
-						setFlight(newFlight);					
-//						System.out.println(_flight.toString());
+						setFlight(newFlight);
 					}
 				}
 				else {
 					// Flight disappeared from the data feed			
 					setFlight(null);
-//					System.out.println("Flight Over");
-					
 					return;
 				}
 			}

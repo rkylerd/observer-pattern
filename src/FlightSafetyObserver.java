@@ -1,7 +1,7 @@
 import java.util.Observable;
 
 
-public class ObserverTwo implements Observer {
+public class FlightSafetyObserver implements IObserver {
     private Flight _flight;
 
     private void setFlight(Flight flight) {

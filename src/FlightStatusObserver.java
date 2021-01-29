@@ -1,4 +1,4 @@
-public class ObserverOne implements Observer {
+public class FlightStatusObserver implements IObserver {
 
     private Flight _flight;
 
